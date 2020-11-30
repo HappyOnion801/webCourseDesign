@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 这是一个基类，用于反问数据库的通用操作，任何想要反问数据库的bean类，只要继承这个类然后实现各自的业务逻就可以了。
  * @author MaCode
  * @date 2020-11-29
  * @github HappyOnion801
- * 这是一个基类，用于反问数据库的通用操作，任何想要反问数据库的bean类，只要继承这个类然后实现各自的业务逻就可以了。
  */
 public abstract class BaseDAO<T> {
 

@@ -8,10 +8,10 @@ import java.sql.*;
 import java.util.Properties;
 
 /**
+ * 这是一个工具类，主要用于java访问数据库的一些辅助性操作，比如获取数据库连接和关闭资源等常用性操作。
  * @author MaCode
  * @date 2020-11-29
  * @github HappyOnion801
- * 这是一个工具类，主要用于java访问数据库的一些辅助性操作，比如获取数据库连接和关闭资源等常用性操作。
  */
 public class JDBCUtils {
 
@@ -20,7 +20,7 @@ public class JDBCUtils {
     static {
         Properties properties = new Properties();
         try {
-            properties.load(ClassLoader.getSystemClassLoader().getResourceAsStream("druid.properties"));
+            properties.load(ClassLoader.getSystemClassLoader().getResourceAsStream("database.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,6 +31,10 @@ public class JDBCUtils {
         }
     }
 
+    /**
+     * 获取一个数据库数据库连接，该连接从数据库连接池获取
+     * @return 返回一个数据库连接对象
+     */
     public static Connection getConnection() {
         Connection con = null;
         try {
@@ -41,6 +45,12 @@ public class JDBCUtils {
         return con;
     }
 
+    /**
+     * 用来关闭各种数据库资源
+     * @param con 数据连接对象
+     * @param ps PreparedStatement对象
+     * @param rs 结果集对象
+     */
     public static void closeResource(Connection con, PreparedStatement ps, ResultSet rs){
         if(con!=null){
             try {
