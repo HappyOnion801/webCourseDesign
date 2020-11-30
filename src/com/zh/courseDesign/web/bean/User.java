@@ -7,7 +7,7 @@ package com.zh.courseDesign.web.bean;
  * @github HappyOnion801
  */
 public class User {
-    private int id;
+    private Integer id;
     private String name;
     private String pwd;
     private Integer type;
@@ -55,6 +55,13 @@ public class User {
 
     public User(int id, String name, String pwd, Integer type, String updated_at) {
         this.id = id;
+        this.name = name;
+        this.pwd = pwd;
+        this.type = type;
+        this.updated_at = updated_at;
+    }
+
+    public User(String name, String pwd, Integer type, String updated_at) {
         this.name = name;
         this.pwd = pwd;
         this.type = type;

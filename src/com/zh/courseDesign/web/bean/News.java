@@ -75,6 +75,13 @@ public class News {
         this.updated_at = updated_at;
     }
 
+    public News(String title, String content, String publisher, String updated_at) {
+        this.title = title;
+        this.content = content;
+        this.publisher = publisher;
+        this.updated_at = updated_at;
+    }
+
     @Override
     public String toString() {
         return "News{" +

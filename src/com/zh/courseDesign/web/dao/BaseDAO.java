@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * 这是一个基类，用于反问数据库的通用操作，任何想要反问数据库的bean类，只要继承这个类然后实现各自的业务逻就可以了。
+ *
  * @author MaCode
  * @date 2020-11-29
  * @github HappyOnion801
@@ -27,8 +28,8 @@ public abstract class BaseDAO<T> {
     }
 
     /**
-     * @param con 数据库连接对象
-     * @param sql sql语句
+     * @param con  数据库连接对象
+     * @param sql  sql语句
      * @param args 参数
      * @return 返回受影响的行数
      * 该方法并不对外开放，是用来实现增删改的通用方法
@@ -58,8 +59,9 @@ public abstract class BaseDAO<T> {
     }
 
     /**
-     * @param con 数据库连接对象
-     * @param sql sql语句
+     * 用来执行数据库查询的通用操作，执行完毕后，并不会释放数据库连接，可以用来事务处理
+     * @param con  数据库连接对象
+     * @param sql  sql语句
      * @param args 参数
      * @return 返回结果表
      */
@@ -87,10 +89,11 @@ public abstract class BaseDAO<T> {
             while (rs.next()) {
                 T t = clazz.newInstance();
                 for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                    Field field = clazz.getClass().getDeclaredField(rsmd.getColumnLabel(i + 1));
+                    Field field = clazz.getDeclaredField(rsmd.getColumnLabel(i + 1));
+                    field.setAccessible(true);
                     field.set(t, rs.getObject(i + 1));
-                    res.add(t);
                 }
+                res.add(t);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,11 +102,24 @@ public abstract class BaseDAO<T> {
         return res;
     }
 
+    /**
+     * 用来数据库插入的通用方法，操作完成后，并不会自动关闭数据库连接，可以用来事物的处理
+     * @param con  数据库连接对象
+     * @param sql  sql命令
+     * @param args 参数
+     * @return 返回一个int，表示数据库插入时返回的受影响的行数
+     */
     public int insert(Connection con, String sql, Object... args) {
         int res = up(con, sql, args);
         return res;
     }
 
+    /**
+     * 通过数据插入的通用方法，但是不传入数据库连接对象，用于一般事物无关的情况
+     * @param sql  sql命令
+     * @param args 参数
+     * @return 返回一个int，表示数据库命令执行完返回的受影响的行数
+     */
     public int insert(String sql, Object... args) {
         Connection con = JDBCUtils.getConnection();
         int res = up(con, sql, args);
@@ -111,6 +127,13 @@ public abstract class BaseDAO<T> {
         return res;
     }
 
+    /**
+     * 用于数据库删除的一般方法，传入一个数据库连接对象，执行玩后，并不会主动释放数据库连接。
+     * @param con
+     * @param sql
+     * @param args
+     * @return
+     */
     public int delete(Connection con, String sql, Object... args) {
         int res = up(con, sql, args);
         return res;
@@ -135,16 +158,38 @@ public abstract class BaseDAO<T> {
         return res;
     }
 
-    public List<T> select(Connection con,String sql,Object ...args){
-        List<T> res = query(con,sql,args);
+    public List<T> select(Connection con, String sql, Object... args) {
+        List<T> res = query(con, sql, args);
         return res;
     }
 
-    public List<T> select(String sql,Object ...args){
+    public List<T> select(String sql, Object... args) {
         Connection con = JDBCUtils.getConnection();
-        List<T> res = query(con,sql,args);
-        JDBCUtils.closeResource(con,null,null);
-        return  res;
+        List<T> res = query(con, sql, args);
+        JDBCUtils.closeResource(con, null, null);
+        return res;
+    }
+
+    public int getInt(String sql, Object... args) {
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        int res = -1;
+        try {
+            con = JDBCUtils.getConnection();
+            ps = con.prepareStatement(sql);
+            for (int i = 0; i < args.length; i++) {
+                ps.setObject(i + 1, args[i]);
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                res = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JDBCUtils.closeResource(con, ps, rs);
+        return res;
     }
 
 }
