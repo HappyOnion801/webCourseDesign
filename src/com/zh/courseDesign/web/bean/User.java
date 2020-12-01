@@ -2,11 +2,16 @@ package com.zh.courseDesign.web.bean;
 
 /**
  * 用户的bean对象，用于实现了user表的ORM。用于表示一个用户对象
+ *
  * @author MaCode
  * @date 2020-11-30
  * @github HappyOnion801
  */
 public class User {
+
+    public static int ADMIN = 1;
+    public static int NORMAL = 2;
+
     private Integer id;
     private String name;
     private String pwd;
@@ -79,6 +84,19 @@ public class User {
                 ", pwd='" + pwd + '\'' +
                 ", type=" + type +
                 ", updated_at='" + updated_at + '\'' +
+                '}';
+    }
+
+    /**
+     * 该方法用来返回对象的json字符串，以便于对象在web端的传输
+     * @return 对象的json字符串
+     */
+    public String toJson() {
+        return "{" +
+                "\"id\":\"" + id + "\"" +
+                ",\"name\":\"" + name + '\"' +
+                ",\"type\":\"" + type + '\"' +
+                ",\"updated_at\":\"" + updated_at + '\"' +
                 '}';
     }
 }

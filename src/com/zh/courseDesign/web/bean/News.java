@@ -2,6 +2,7 @@ package com.zh.courseDesign.web.bean;
 
 /**
  * 这个一个bean对象，表示一条新闻记录，实现了实现了news表的ORM。
+ *
  * @author MaCode
  * @date 2020-11-30
  * @github HappyOnion801
@@ -21,6 +22,7 @@ public class News {
 
     /**
      * 创建一个新闻对象，包括新闻的id，标题，内容，作者，更新事件等信息。
+     *
      * @param id
      * @param title
      * @param content
@@ -90,6 +92,21 @@ public class News {
                 ", content='" + content + '\'' +
                 ", publisher='" + publisher + '\'' +
                 ", updated_at='" + updated_at + '\'' +
+                '}';
+    }
+
+    /**
+     * 该方法可以将对象转换成json字符串，以便于对象在web上的传输
+     *
+     * @return 对象的json字符串
+     */
+    public String toJson() {
+        return "{" +
+                "\"id\":\"" + id + '\"' +
+                ",\"title\":\"" + title + '\"' +
+                ",\"content\":\"" + content + '\"' +
+                ",\"publisher\":\"" + publisher + '\"' +
+                ",\"updated_at\":\"" + updated_at + '\"' +
                 '}';
     }
 }

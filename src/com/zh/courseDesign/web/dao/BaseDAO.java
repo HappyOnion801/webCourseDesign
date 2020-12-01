@@ -60,6 +60,7 @@ public abstract class BaseDAO<T> {
 
     /**
      * 用来执行数据库查询的通用操作，执行完毕后，并不会释放数据库连接，可以用来事务处理
+     *
      * @param con  数据库连接对象
      * @param sql  sql语句
      * @param args 参数
@@ -104,23 +105,25 @@ public abstract class BaseDAO<T> {
 
     /**
      * 用来数据库插入的通用方法，操作完成后，并不会自动关闭数据库连接，可以用来事物的处理
+     *
      * @param con  数据库连接对象
      * @param sql  sql命令
      * @param args 参数
      * @return 返回一个int，表示数据库插入时返回的受影响的行数
      */
-    public int insert(Connection con, String sql, Object... args) {
+    protected int insert(Connection con, String sql, Object... args) {
         int res = up(con, sql, args);
         return res;
     }
 
     /**
      * 通过数据插入的通用方法，但是不传入数据库连接对象，用于一般事物无关的情况
+     *
      * @param sql  sql命令
      * @param args 参数
      * @return 返回一个int，表示数据库命令执行完返回的受影响的行数
      */
-    public int insert(String sql, Object... args) {
+    protected int insert(String sql, Object... args) {
         Connection con = JDBCUtils.getConnection();
         int res = up(con, sql, args);
         JDBCUtils.closeResource(con, null, null);
@@ -129,48 +132,56 @@ public abstract class BaseDAO<T> {
 
     /**
      * 用于数据库删除的一般方法，传入一个数据库连接对象，执行玩后，并不会主动释放数据库连接。
+     *
      * @param con
      * @param sql
      * @param args
      * @return
      */
-    public int delete(Connection con, String sql, Object... args) {
+    protected int delete(Connection con, String sql, Object... args) {
         int res = up(con, sql, args);
         return res;
     }
 
-    public int delete(String sql, Object... args) {
+    protected int delete(String sql, Object... args) {
         Connection con = JDBCUtils.getConnection();
         int res = up(con, sql, args);
         JDBCUtils.closeResource(con, null, null);
         return res;
     }
 
-    public int update(Connection con, String sql, Object... args) {
+    protected int update(Connection con, String sql, Object... args) {
         int res = up(con, sql, args);
         return res;
     }
 
-    public int update(String sql, Object... args) {
+    protected int update(String sql, Object... args) {
         Connection con = JDBCUtils.getConnection();
         int res = up(con, sql, args);
         JDBCUtils.closeResource(con, null, null);
         return res;
     }
 
-    public List<T> select(Connection con, String sql, Object... args) {
+    protected List<T> select(Connection con, String sql, Object... args) {
         List<T> res = query(con, sql, args);
         return res;
     }
 
-    public List<T> select(String sql, Object... args) {
+    protected List<T> select(String sql, Object... args) {
         Connection con = JDBCUtils.getConnection();
         List<T> res = query(con, sql, args);
         JDBCUtils.closeResource(con, null, null);
         return res;
     }
 
-    public int getInt(String sql, Object... args) {
+    /**
+     * 该方法<B>只能</B>用来查询单个int值。
+     *
+     * @param sql  sql命令
+     * @param args 参数
+     * @return 返回一个int值，表示查询结果。
+     */
+    protected int getInt(String sql, Object... args) {
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
