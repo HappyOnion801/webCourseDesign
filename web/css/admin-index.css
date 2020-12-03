@@ -1,0 +1,29 @@
+.desktop {
+    height: 100%;
+    padding: 20px;
+    background-color: white;
+    display: none;
+}
+
+.desktop > li {
+    margin-top: 30px;
+    width: 20%;
+    display: inline-block;
+    text-align: center;
+    padding: 10px;
+    margin-left: 3%;
+}
+
+.icon {
+    display: inline-block;
+    height: 70px;
+    width: 70px;
+    line-height: 70px;
+    border-radius: 70px;
+    background-color: #eeeeee;
+}
+
+.app-name {
+    color: #aaaaaa;
+    font-weight: bold;
+}

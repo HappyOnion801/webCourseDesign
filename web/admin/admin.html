@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link rel="stylesheet" href="../css/admin-main.css"/>
+    <link rel="stylesheet" href="../css/admin-index.css"/>
+    <link rel="stylesheet" href="../css/admin-user.css"/>
+    <link rel="stylesheet" href="../css/modal.css"/>
+    <script src="../js/jquery.min.3.5.1.js"></script>
+    <script src="../js/modal.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<table class="main">
+    <tr>
+        <td colspan="2" class="header">
+            <p class="logo"><strong>HappyOnion801</strong> 明日科技</p>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="left">
+            <ul class="menu">
+                <li class="menu-bar fellable" onclick="index()" id="indexBar"><a>首页</a></li>
+                <li class="menu-bar fellable" onclick="user()" id="userBar"><a>用户管理</a></li>
+                <li class="menu-bar fellable" onclick="news()" id="newsBar"><a>新闻管理</a></li>
+                <li class="menu-bar fellable" onclick="exit()" id="exitBar"><a>注销</a></li>
+            </ul>
+            <ul class="one-say">
+                <li class="menu-bar fellable">
+                    <span class="menu-bar-title">公告</span>
+                    <span class="menu-bar-content">岁月静好，愿你所有的努力终将有所收获</span>
+                </li>
+                <li class="menu-bar fellable">
+                    <span class="menu-bar-title">作者</span>
+                    <span class="menu-bar-content">岁月静好，愿你所有的努力终将有所收获</span>
+                </li>
+            </ul>
+        </td>
+        <td class="content">
+            <ul class="desktop" id="desktop">
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">用户管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+                <li>
+                    <span class="icon"></span><br/><br/>
+                    <span class="app-name">新闻管理</span>
+                </li>
+            </ul>
+
+            <div class="user" id="userPage">
+                <div class="tools">
+                    <ul class="add-delete">
+                        <li class="fellable">添加</li>
+                        <li class="fellable">删除</li>
+                    </ul>
+                    <ul class="search">
+                        <li><label><input type="text" id="input"/></label></li>
+                        <li>
+                            <button id="search">搜索</button>
+                        </li>
+                    </ul>
+                    <label>
+                        <select class="filter" name="search">
+                            <option>所有用户</option>
+                            <option>管理员</option>
+                            <option>普通用户</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="data-table">
+                    <table class="data">
+                        <thead>
+                        <td style="width: 10%">ID</td>
+                        <td style="width: 20%">类别</td>
+                        <td style="width: 20%">用户名</td>
+                        <td style="width: 25%">修改日期</td>
+                        <td style="width: 25%">操作</td>
+                        </thead>
+                        <tr class="obj fellable">
+                            <td style="width: 10%">1</td>
+                            <td style="width: 20%">管理员</td>
+                            <td style="width: 20%">张浩</td>
+                            <td style="width: 25%">2020-01-01 08:49</td>
+                            <td style="width: 25%"><a>编辑</a> │ <a>删除</a></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="page">
+                    <p class="all">共X条数据</p>
+                    <ul class="index">
+                        <li class="fellable">上一页</li>
+                        <li><label for="inputPage"></label><input type="text" id="inputPage" value="1"/>/<span
+                                id="allPage">4</span></li>
+                        <li class="fellable">下一页</li>
+                    </ul>
+                </div>
+            </div>
+
+        </td>
+    </tr>
+
+    <tr>
+        <td class="footer" colspan="2">© 2014 AllMobilize, Inc. Licensed under MIT license.</td>
+    </tr>
+</table>
+<div id="modal"></div>
+</body>
+<script>
+
+    function hiddenAll() {
+        $("#desktop").css("display", "none");
+        $("#userPage").css("display", "none");
+        $("#newsPage").css("display", "none");
+        $(".menu>li").css("border-right", "1px solid #dddddd")
+    }
+
+    function index() {
+        hiddenAll();
+        $("#desktop").css("display", "block");
+        $("#indexBar").css("border-right", "none");
+    }
+
+    function user() {
+        hiddenAll();
+        $("#userPage").css("display", "block");
+        $("#userBar").css("border-right", "none");
+    }
+
+    $(function () {
+        index();
+        createConfirm("测试","dui","budui").show();
+    });
+
+</script>
+</html>

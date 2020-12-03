@@ -1,0 +1,153 @@
+.tools{
+    width: 96%;
+    height: 40px;
+    margin-left: 2%;
+    margin-top: 40px;
+}
+
+.add-delete{
+    width: 180px;
+    list-style: none;
+    float: left;
+    background-color: #eeeeee;
+    border: 1px solid #dddddd;
+}
+.add-delete>li:first-child{
+    border-right: 1px solid #dddddd;
+}
+
+.add-delete>li{
+    width: 50%;
+    height: 40px;
+    font-size: 1em;
+    float: left;
+    color: #555555;
+    text-align: center;
+    line-height: 40px;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.filter{
+    width: 150px;
+    height: 100%;
+    border: 1px solid #aaaaaa;
+    text-align: center;
+    background-color: white;
+    margin-right: 50px;
+    float: right;
+}
+
+.search{
+    height: 100%;
+    width: 300px;
+    list-style: none;
+    float: right;
+    border: 1px solid #aaaaaa;
+}
+
+.search>li:first-child{
+    width: 60%;
+}
+
+.search>li:last-child{
+    width: 40%;
+}
+
+.search>li{
+    height: 100%;
+    width: 100%;
+    float: left;
+}
+
+#input{
+    height: 100%;
+    width: 100%;
+    background: white;
+    font-size: 1.2em;
+    border: none;
+}
+
+#search{
+    height: 100%;
+    width: 100%;
+    background: #eeeeee;
+    border-left: 1px solid #aaaaaa;
+    border-right: none;
+    border-bottom: none;
+    border-top: none;
+}
+
+.data-table{
+    width: 96%;
+    margin-left: 2%;
+    margin-top: 40px;
+}
+
+.data{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data>thead{
+    color: #555555;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #dddddd;
+}
+
+.obj>td{
+    color: #555555;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-bottom: 1px solid #dddddd;
+}
+
+.page{
+    margin-top: 40px;
+    width: 96%;
+    margin-left: 2%;
+    height: 40px;
+    padding-bottom: 40px;
+}
+
+.all{
+    height: 100%;
+    color: #555555;
+    line-height: 40px;
+    float: left;
+}
+
+.index{
+    height: 100%;
+    float: right;
+    list-style: none;
+    color: #555555;
+}
+
+.index>li{
+    margin-left: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 100%;
+    line-height: 40px;
+    background-color: #eeeeee;
+    float: left;
+}
+
+.index>li:nth-child(2){
+    font-size: 20px;
+}
+
+#inputPage{
+    width: 30px;
+    height: 100%;
+    border: none;
+    font-size: 24px;
+    text-align: right;
+    color: #555555;
+    background-color: #eeeeee;
+}

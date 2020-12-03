@@ -1,0 +1,125 @@
+* {
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
+.fellable:hover{
+    background-color: #cccccc;
+}
+
+body {
+    background-color: #f3f3f3;
+}
+
+.main {
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+    user-select: none;
+}
+
+.header {
+    height: 60px;
+    background-color: #eeeeee;
+    border-bottom: 1px solid #dddddd;
+}
+
+.logo {
+    height: 60px;
+    color: #535353;
+    font-size: 18px;
+    display: inline;
+    line-height: 60px;
+    text-align: center;
+    margin-left: 20px;
+}
+
+.left {
+    vertical-align: top;
+}
+
+.menu {
+    border: 0;
+    width: 100%;
+    list-style: none;
+    background-color: white;
+}
+
+.menu > li {
+    height: 40px;
+    padding-left: 30px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    line-height: 40px;
+    font-size: 16px;
+    color: #5d5d5d;
+    border-bottom: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+}
+
+.menu-bar-title {
+    display: block;
+    width: 80%;
+    height: 20px;
+    line-height: 20px;
+    font-size: 17px;
+    margin-left: 15px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.menu-bar-content {
+    display: block;
+    font-size: 17px;
+    line-height: 25px;
+    margin-left: 4%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    letter-spacing: 2px;
+}
+
+.one-say {
+    box-sizing: border-box;
+    width: 100%;
+    list-style: none;
+}
+
+.one-say > li {
+    width: 90%;
+    display: inline-block;
+    margin-left: 5%;
+    margin-top: 10px;
+    background-color: white;
+    border: 1px solid #dddddd;
+}
+
+.content {
+    height: 100%;
+    vertical-align: top;
+    background-color: white;
+}
+
+@media screen and (max-width: 900px) {
+    .left {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .left {
+        width: 300px;
+        padding-bottom: 10px;
+    }
+}
+
+.footer {
+    height: 50px;
+    background-color: white;
+    text-align: center;
+    font-size: 1em;
+    color: #aaaaaa;
+    border-top: 1px solid #dddddd;
+}
