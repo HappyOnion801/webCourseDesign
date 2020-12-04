@@ -17,7 +17,7 @@ public class login extends javax.servlet.http.HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         OutputStream os = response.getOutputStream();
-        String message = "{\"code\":0}";
+        String message = "{\"code\":\"0\"}";
         try {
             String password = request.getParameter("password");
             String username = request.getParameter("username");
@@ -29,7 +29,7 @@ public class login extends javax.servlet.http.HttpServlet {
                 cookie.setMaxAge(30);
                 if ("remind".equals(remind)) cookie.setMaxAge(604800);
                 response.addCookie(cookie);
-                message = "{\"code\":1,\"user\":\"" + user.getId() + "\"}";
+                message = "{\"code\":\"1\",\"user\":\"" + user.getId() + "\"}";
             }
         } catch (Exception e) {
             e.printStackTrace();

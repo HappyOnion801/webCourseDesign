@@ -29,7 +29,7 @@ public class admin implements Filter {
         }
         if(!flag){
             ((HttpServletResponse)resp).sendRedirect("../login.jsp");
-            System.out.println("验证成功");
+            System.out.println("拦截成功！");
         }
         chain.doFilter(req, resp);
     }

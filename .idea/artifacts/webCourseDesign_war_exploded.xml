@@ -7,6 +7,10 @@
         <element id="directory" name="classes">
           <element id="module-output" name="webCourseDesign" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="module" name="JUnit4" module-name="webCourseDesign" />
+          <element id="library" level="project" name="druid" />
+        </element>
       </element>
     </root>
   </artifact>
