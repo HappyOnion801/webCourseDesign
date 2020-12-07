@@ -29,17 +29,19 @@ public class TestUserDAO {
 
     @Test
     public void userAdd() {
-        System.out.print("添加用户：");
-        UserDAO userDAO = new UserDAO();
-        int res = userDAO.userAdd(new User("zhanghao", "pwd", 1, "2020-01-01"));
-        System.out.println(res);
+        for (int i = 0; i < 10; i++) {
+            System.out.print("添加用户：");
+            UserDAO userDAO = new UserDAO();
+            int res = userDAO.userAdd(new User("zhanghao", "pwd", 1));
+            System.out.println(res);
+        }
     }
 
     @Test
     public void userUpdate() {
         System.out.print("更新用户信息：");
         UserDAO userDAO = new UserDAO();
-        boolean res = userDAO.userUpdate(new User(6, "zhanghao", "pwd", 1, "2025-01-01"));
+        boolean res = userDAO.userUpdate(new User(6, "zhanghao", "pwd", 1));
         System.out.println(res);
     }
 
@@ -49,8 +51,21 @@ public class TestUserDAO {
         UserDAO userDAO = new UserDAO();
         List<User> res = userDAO.userList(1);
         for (Object b : res) {
-            System.out.println(((User)b).toJson());
+            System.out.println(((User) b));
         }
     }
+
+    @Test
+    public void userDisplay(){
+        UserDAO userDAO = new UserDAO();
+        System.out.println(userDAO.userDisplay("123"));
+    }
+
+    @Test
+    public void userExist(){
+        UserDAO userDAO = new UserDAO();
+        System.out.println(userDAO.UserExists("123"));
+    }
+
 
 }

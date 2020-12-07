@@ -26,7 +26,7 @@ public class TestNewsDAO {
         List res = newsDAO.newsAllList(1);
         System.out.println("显示所有新闻：");
         for (Object o : res) {
-            System.out.println(((News) o).toJson());
+            System.out.println(((News) o));
         }
     }
 
@@ -36,7 +36,7 @@ public class TestNewsDAO {
         List res = newsDAO.newsAllList("zhanghao", 1);
         System.out.println("通过标题查找新闻：");
         for (Object o : res) {
-            System.out.println(((News) o).toJson());
+            System.out.println(o);
         }
     }
 

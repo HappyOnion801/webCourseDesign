@@ -84,23 +84,13 @@ public class News {
         this.updated_at = updated_at;
     }
 
-    @Override
-    public String toString() {
-        return "News{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", publisher='" + publisher + '\'' +
-                ", updated_at='" + updated_at + '\'' +
-                '}';
-    }
-
     /**
      * 该方法可以将对象转换成json字符串，以便于对象在web上的传输
      *
      * @return 对象的json字符串
      */
-    public String toJson() {
+    @Override
+    public String toString() {
         return "{" +
                 "\"id\":\"" + id + '\"' +
                 ",\"title\":\"" + title + '\"' +

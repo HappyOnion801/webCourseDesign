@@ -4,6 +4,8 @@ import com.zh.courseDesign.web.bean.User;
 import com.zh.courseDesign.web.dao.bean.UserDAO;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -25,18 +27,22 @@ public class login extends javax.servlet.http.HttpServlet {
             UserDAO userDAO = new UserDAO();
             User user = userDAO.userDisplay(username);
             if (user != null && password.equals(user.getPwd())) {
-                Cookie cookie = new Cookie("userID", String.valueOf(user.getId()));
-                cookie.setMaxAge(30);
-                if ("remind".equals(remind)) cookie.setMaxAge(604800);
-                response.addCookie(cookie);
+                if ("remind".equals(remind)) {
+                    Cookie cookie = new Cookie("userID", String.valueOf(user.getId()));
+                    cookie.setMaxAge(604800);
+                    response.addCookie(cookie);
+                }
+                HttpSession session = request.getSession();
+                session.setAttribute("userID", user.getId());
                 message = "{\"code\":\"1\",\"user\":\"" + user.getId() + "\"}";
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            System.out.println(message);
-            os.write(message.getBytes());
-            os.close();
+        } finally {
+            if (os != null) {
+                os.write(message.getBytes());
+                os.close();
+            }
         }
     }
 

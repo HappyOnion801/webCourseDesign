@@ -1,18 +1,20 @@
 function createAlert(status, content) {
-    var modal = {};
+    let modal = {};
     modal.status = status;
     modal.content = content;
-    modal.body = $("<div id='modal' class='alertPage'><p class='alert-content'>" + modal.content + "</p></div>").appendTo("body");
     modal.show = function () {
+        $("<div id='modal' class='alertPage'><p class='alert-content'>" + modal.content + "</p></div>")
+            .css("display","none")
+            .appendTo("body");
         if (status === "ok") {
-            $("#modal").addClass("alertOK");
+            $(".alertPage").addClass("alertOK");
         } else {
-            $("#modal").addClass("alertNO");
+            $(".alertPage").addClass("alertNO");
         }
-        $('#modal').slideDown(200, function () {
+        $('.alertPage').slideDown(200, function () {
             setTimeout(function () {
-                $('#modal').slideUp(200, function () {
-                    modal.body.remove();
+                $('.alertPage').slideUp(200, function () {
+                    $(".alertPage").remove();
                 });
             }, 2000);
         });
@@ -21,7 +23,7 @@ function createAlert(status, content) {
 }
 
 function createConfirm(title, ok, no) {
-    var modal = {};
+    let modal = {};
     modal.title = title;
     modal.ok = ok;
     modal.no = no;
@@ -30,10 +32,11 @@ function createConfirm(title, ok, no) {
     modal.noEvent = function () {
     };
     modal.show = function () {
-        var content = $("<table class='confirm'><tr class='confirm-title'><td colspan='2'>" + this.title + "</td></tr><tr><td class='confirm-ok fellable' id='confirmOK'>" + this.ok + "</td><td class='confirm-no fellable' id='confirmNO'>" + this.no + "</td></tr></table>").appendTo("#modal");
-        $("#modal").addClass("confirmPage").click(function () {
-            $("#modal").hide(function () {
-                $("#modal").remove();
+        $("<div id='modal' class='confirmPage'><table class='confirm'><tr class='confirm-title'><td colspan='2'>" + this.title + "</td></tr><tr><td class='confirm-ok fellable' id='confirmOK'>" + this.ok + "</td><td class='confirm-no fellable' id='confirmNO'>" + this.no + "</td></tr></table></div>")
+            .appendTo("body")
+            .click(function () {
+            $(".confirmPage").hide(function () {
+                $(".confirmPage").remove();
             });
         }).show();
         $("#confirmOK").click(function () {
@@ -47,32 +50,33 @@ function createConfirm(title, ok, no) {
 }
 
 function createPrompt(type,data) {
-    var modal = {};
+    let modal = {};
     modal.type = type;
     modal.data = data;
     modal.okEvent = function (input,data) {
         return true;
     }
     modal.show = function () {
-        var table = $("<div id='inputTable'></div>")
+        let table = $("<div id='inputTable'></div>")
         for (key in modal.type) {
             $(table).append("<p>" + key + "</p>")
                 .append("<input type='" + modal.type[key] + "' name='" + key + "'/>");
         }
-        var okButton = $("<input id='promptButton' type='button' value='确定'/>").click(function () {
-            var input = {};
+        let okButton = $("<input id='promptButton' type='button' value='确定'/>").click(function () {
+            let input = {};
             $("#inputTable").find("input").each(function () {
                 input[$(this).attr('name')] = $(this).val();
             });
-            modal.okEvent(input,modal.data);
-            if (modal.okEvent() !== false) {
-                $("#modal").remove();
+            let f = modal.okEvent(input,modal.data);
+            console.log(f);
+            if (f !== false) {
+                $(".promptPage").remove();
             }
         });
-        var resetButton = $("<input id='promptReset' type='button' value='重置'/>").click(function (){
+        let resetButton = $("<input id='promptReset' type='button' value='重置'/>").click(function (){
             $("#inputTable").find("input").val("");
         });
-        var con = $("<form id='promptBody'></form>")
+        let con = $("<form id='promptBody'></form>")
             .append(table)
             .append(resetButton)
             .append(okButton)
@@ -83,7 +87,7 @@ function createPrompt(type,data) {
             .append(con)
             .appendTo("body")
             .click(function () {
-                $("#modal").remove();
+                $(".promptPage").remove();
             });
     }
     return modal;

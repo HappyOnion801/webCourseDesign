@@ -24,7 +24,6 @@ public class JDBCUtils {
         Properties properties = new Properties();
         try {
             String path = JDBCUtils.class.getResource("/").getPath();
-            System.out.println(path);
             properties.load(JDBCUtils.class.getResourceAsStream("/database.properties"));
         } catch (IOException e) {
             e.printStackTrace();

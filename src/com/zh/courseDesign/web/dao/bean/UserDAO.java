@@ -15,7 +15,7 @@ import java.util.Properties;
  */
 public class UserDAO extends BaseDAO<User> implements IUser {
 
-    private static Properties properties = null;
+    private static final Properties properties;
 
     static {
         properties = new Properties();
@@ -26,22 +26,26 @@ public class UserDAO extends BaseDAO<User> implements IUser {
         }
     }
 
+    public int getLimit() {
+        return Integer.parseInt(properties.getProperty("limit"));
+    }
+
     @Override
     public List<User> userList(int page) {
-        Integer limit = Integer.valueOf(properties.getProperty("limit"));
+        int limit = getLimit();
         return super.select("select * from user limit ?,?", (page - 1) * limit, limit);
     }
 
     @Override
     public List<User> userAdminList(int page) {
-        Integer limit = Integer.valueOf(properties.getProperty("limit"));
-        return super.select("select * from user where type=? limit ?,?", User.ADMIN,(page - 1) * limit, limit);
+        int limit = getLimit();
+        return super.select("select * from user where type=? limit ?,?", User.ADMIN, (page - 1) * limit, limit);
     }
 
     @Override
     public List<User> userNormalList(int page) {
-        Integer limit = Integer.valueOf(properties.getProperty("limit"));
-        return super.select("select * from user where type=? limit ?,?", User.NORMAL,(page - 1) * limit, limit);
+        int limit = getLimit();
+        return super.select("select * from user where type=? limit ?,?", User.NORMAL, (page - 1) * limit, limit);
     }
 
     @Override
@@ -53,8 +57,9 @@ public class UserDAO extends BaseDAO<User> implements IUser {
 
     /**
      * 通过用户名和密码来进行用户的搜索，但是因为用户名可能存在重复问题所以该方法存在BUG
+     *
      * @param name 用户名
-     * @param pwd 密码
+     * @param pwd  密码
      * @return 返回检索到的用户，如果没有匹配的用户，将返回null;
      */
     @Deprecated
@@ -67,14 +72,14 @@ public class UserDAO extends BaseDAO<User> implements IUser {
 
     /**
      * 通过name来查找用户并返回，由于并未规定name是否可以重复，所以可能出现逻辑错误。
+     *
      * @param name 用户名
      * @return 返回找到的用户
      */
-    @Deprecated
     @Override
     public User userDisplay(String name) {
         List<User> res = super.select("select * from user where name=?", name);
-        if (res != null && res.size() == 1) return res.get(0);
+        if (res != null && res.size() != 0) return res.get(0);
         return null;
     }
 
@@ -90,16 +95,12 @@ public class UserDAO extends BaseDAO<User> implements IUser {
 
     @Override
     public boolean userDelete(int id) {
-        int res = super.delete("delete from user where id=?", id);
-        if (res == 1) return true;
-        return false;
+        return super.delete("delete from user where id=?", id) == 1;
     }
 
     @Override
     public boolean userUpdate(User user) {
-        int res = super.update("update user set name=?,pwd=?,type=?,updated_at=? where id=?", user.getName(), user.getPwd(), user.getType(), user.getUpdated_at(), user.getId());
-        if (res == 1) return true;
-        return false;
+        return super.update("update user set name=?,pwd=?,type=?,updated_at=? where id=?", user.getName(), user.getPwd(), user.getType(), user.getUpdated_at(), user.getId()) == 1;
     }
 
     @Override
@@ -109,11 +110,11 @@ public class UserDAO extends BaseDAO<User> implements IUser {
 
     @Override
     public int userAdminCount() {
-        return super.getInt("select count(*) from where type=?", User.ADMIN);
+        return super.getInt("select count(*) from user where type=?", User.ADMIN);
     }
 
     @Override
     public int userNormalCount() {
-        return super.getInt("select count(*) from where type=?", User.NORMAL);
+        return super.getInt("select count(*) from user where type=?", User.NORMAL);
     }
 }

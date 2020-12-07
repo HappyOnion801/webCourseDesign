@@ -1,5 +1,4 @@
 #modal {
-/ / display: none;
 }
 
 .confirmPage {
@@ -7,7 +6,7 @@
     top: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 100;
+    z-index: 90;
     position: fixed;
     background-color: rgba(0, 0, 0, 0.4);
 }
@@ -51,6 +50,7 @@
     font-weight: bold;
     text-align: center;
     color: white;
+    z-index: 100;
 }
 
 .alertOK {
@@ -72,6 +72,7 @@
     height: 100vh;
     position: fixed;
     background-color: rgba(0, 0, 0, 0.3);
+    z-index: 80;
 }
 
 #promptBody {
@@ -98,6 +99,7 @@
 #promptBody > p {
     clear: both;
 }
+
 #promptBody > #promptReset, #promptBody > #promptButton {
     width: 15%;
     height: 30px;

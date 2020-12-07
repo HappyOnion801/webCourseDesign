@@ -114,10 +114,10 @@
                         </li>
                     </ul>
                     <label>
-                        <select class="filter" name="search">
-                            <option>所有用户</option>
-                            <option>管理员</option>
-                            <option>普通用户</option>
+                        <select class="filter" id="filter" onchange="change()">
+                            <option value="-1">所有用户</option>
+                            <option value="1">管理员</option>
+                            <option value="2">普通用户</option>
                         </select>
                     </label>
                 </div>
@@ -135,12 +135,13 @@
                 </div>
 
                 <div class="page">
-                    <p class="all">共X条数据</p>
+                    <p class="all">共<span id="allItems"></span>条数据</p>
                     <ul class="index">
-                        <li class="fellable">上一页</li>
-                        <li><label for="inputPage"></label><input type="text" id="inputPage" value="1"/>/<span
-                                id="allPage">4</span></li>
-                        <li class="fellable">下一页</li>
+                        <li class="fellable" onclick="last()">上一页</li>
+                        <li><label for="inputPage"><input type="number" id="inputPage" value="1"
+                                                          onchange="changePage()"/></label>/<span
+                                id="allPage"></span></li>
+                        <li class="fellable" onclick="next()">下一页</li>
                     </ul>
                 </div>
             </div>
@@ -156,24 +157,80 @@
 <script>
 
     function append(obj) {
-        var tr = $("<tr class='obj fellable' onclick='sel(this)'></tr>")
+        let tr = $("<tr class='obj fellable' onclick='sel(this)'></tr>")
             .append("<td>" + obj['id'] + "</td>")
-            .append("<td>" + obj['name'] + "</td>")
             .append("<td>" + obj['type'] + "</td>")
+            .append("<td>" + obj['name'] + "</td>")
             .append("<td>" + obj['updated_at'] + "</td>")
             .append("<td><input type='number' value=" + obj['id'] + " hidden/><a onclick='edit(this)'>修改密码</a> │ <a onclick='deleted(this)'>删除</a>");
         tr.appendTo("#data");
     }
 
     function add() {
-        var obj = {"id": "14", "name": "zhanghao", "type": "null", "updated_at": "null"};
-        userAdd(obj);
+        let modal = createPrompt({"用户名": "text", "密码": "password", "确认密码": "password"});
+        modal.okEvent = function (input) {
+            if (input["用户名"] === "") {
+                createAlert("no", "请输入用户名").show();
+            } else if (input["密码"] === "") {
+                createAlert("no", "请输入密码").show();
+            } else if (input["确认密码"] === "") {
+                createAlert("no", "请输入确认密码").show();
+            } else if (input["密码"] !== input["确认密码"]) {
+                createAlert("no", "两次输入不一样").show();
+            } else {
+                let data;
+                $.ajaxSettings.async = false;
+                $.getJSON(
+                    "../user",
+                    {"operation": "add", "name": input["用户名"], "password": input["密码"]},
+                    function (req) {
+                        data = req;
+                    });
+                $.ajaxSettings.async = true;
+                if (data["code"] === "1") {
+                    createAlert("ok", "添加用户成功！").show();
+                    toPage(Number($("#inputPage").val()));
+                    return true;
+                } else if (data["code"] === "0") {
+                    createAlert("no", "添加失败！").show();
+                    return true;
+                } else if (data["code"] === "-1") {
+                    createAlert("no", "用户名被占用").show();
+                }
+            }
+            return false;
+        }
+        modal.show();
+    }
+
+    function deleteById(id) {
+        let data;
+        $.ajaxSettings.async = false;
+        $.getJSON(
+            "../user",
+            {"operation": "delete", "id": id},
+            function (req) {
+                data = req;
+            });
+        $.ajaxSettings.async = true;
+        if (data["code"] === "1") {
+            $("#allItems").text(Number($("#allItems").text()) - 1);
+        }
+        return data["code"] === "1";
     }
 
     function deleted(who) {
-        var a = $(who).parent().find("input").val();
-        alert(a);
-        $(who).parent().parent().remove();
+        let ask = createConfirm("你确定要删除该的用户吗？", "确定", "取消");
+        ask.okEvent = function () {
+            if (deleteById($(who).parent().find("input").val())) {
+                createAlert("ok", "删除成功！").show();
+                $(who).parent().parent().remove();
+            } else {
+                createAlert("no", "删除失败！");
+            }
+        }
+        ask.show();
+        event.stopPropagation();
     }
 
     function sel(who) {
@@ -181,21 +238,104 @@
     }
 
     function deletes() {
-        $(".selected").each(function () {
-            alert($(this).find("input").val());
-            $(this).remove();
-        })
+        let ask = createConfirm("你确定要删除选中的用户吗？", "确定", "取消");
+        ask.okEvent = function () {
+            let count = 0;
+            $(".selected").each(function () {
+                if (deleteById($(this).find("input").val())) {
+                    $(this).remove();
+                } else {
+                    count++;
+                }
+            });
+            if (count !== 0) {
+                createAlert("no", "部分用户删除失败！").show();
+            } else {
+                createAlert("ok", "删除用户成功！").show();
+            }
+        }
+        ask.show();
     }
 
     function edit(who) {
-        var modal = createPrompt({"密码":"password","确认密码":"password"},$(who).prev().val());
-        modal.okEvent = function (input,data) {
-            console.log(data);
-            console.log(input);
+        let modal = createPrompt(
+            {"密码": "password", "确认密码": "password"},
+            $(who).prev().val()
+        );
+        modal.okEvent = function (input, data) {
+            if (input["密码"] === "") {
+                createAlert("no", "请输入密码").show();
+            } else if (input["确认密码"] === "") {
+                createAlert("no", "请输入确认密码").show();
+            } else if (input["密码"] !== input["确认密码"]) {
+                createAlert("no", "两次密码不一样").show();
+            } else if (input["密码"] === input["确认密码"]) {
+                $.getJSON("../user", {
+                    "operation": "update",
+                    "password": input["密码"],
+                    "id": data
+                }, function (req) {
+                    if (req["code"] === "1") {
+                        createAlert("ok", "密码修改成功！").show();
+                    } else if (req["code"] === "0") {
+                        createAlert("no", "密码修改失败！").show();
+                    }
+                });
+                return true;
+            }
             return false;
         }
         modal.show();
         event.stopPropagation();
+    }
+
+    function toPage(page) {
+        let size;
+        $.ajaxSettings.async = false;
+        $.getJSON("../user", {"operation": "page", "type": $("#filter").val(), "page": page}, function (req) {
+            if (req["code"] === "1") {
+                let list = req["list"];
+                size = list.length;
+                if (size !== 0)
+                    $("#data").find(".obj").remove();
+                for (let i = 0; i < list.length; i++) {
+                    append(list[i]);
+                }
+            }
+        });
+        $.ajaxSettings.async = true;
+        if (size !== 0) $("#inputPage").val(page);
+    }
+
+    function next() {
+        let now = Number($("#inputPage").val());
+        toPage(now + 1);
+    }
+
+    function last() {
+        let now = Number($("#inputPage").val());
+        if (now === 1) return;
+        toPage(now - 1);
+    }
+
+    function change() {
+        $("#data").find(".obj").remove();
+        toPage(1);
+        changeMetaData();
+    }
+
+    function changePage() {
+        let inputPage = Number($("#inputPage").val());
+        let allPage = Number($("#allPage").text());
+        if (inputPage < 1) {
+            $("#inputPage").val(1);
+            toPage(1);
+        } else if (inputPage > allPage) {
+            $("#inputPage").val(allPage);
+            toPage(allPage);
+        } else {
+            toPage(inputPage);
+        }
     }
 
     function hiddenAll() {
@@ -211,8 +351,21 @@
         $("#indexBar").css("border-right", "none");
     }
 
+    function changeMetaData() {
+        let type = Number($("#filter").val())
+        $.getJSON("../user?operation=count&type=" + type, function (req) {
+            let limit = Number(req["limit"]);
+            let all = Number(req["all"]);
+            console.log(req);
+            $("#allPage").text(Math.ceil(all / limit));
+            $("#allItems").text(all);
+        });
+    }
+
     function user() {
         hiddenAll();
+        changeMetaData(-1);
+        toPage(1);
         $("#userPage").css("display", "block");
         $("#userBar").css("border-right", "none");
     }

@@ -70,14 +70,14 @@
             <div class="form">
                 <form onsubmit="sub();return false" action="admin/admin.html" method="post">
                     <p class="label">用户名</p>
-                    <input class="input" id="username" type="text"/>
+                    <label for="username"></label><input class="input" id="username" type="text"/>
                     <br/><br/>
                     <p class="label">密码</p>
                     <input class="input" id="password" type="password"/>
                     <br/><br/>
                     <input type="checkbox" id="remind" value="remind">记录一周<br/>
                     <input class="button" id="login" type="submit" value="登录" style="background-color: #0f9ae0"/>
-                    <input class="button" id="noPassword" type="button" value="忘记密码^_^" style="float: right"/>
+                    <input class="button" id="noPassword" type="button" value="忘记密码 ^_^" style="float: right"/>
                 </form>
             </div>
         </td>
@@ -103,7 +103,7 @@
             var tit;
             if (req["code"] === "1") {
                 tit = createAlert("ok", "登录成功！");
-                window.open("admin/admin.html");
+                window.open("admin/admin.html","_self");
             } else if (req["code"] === "0") {
                 tit = createAlert("no", "登录失败！");
             }else{

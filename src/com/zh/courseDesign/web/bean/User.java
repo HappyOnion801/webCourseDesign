@@ -1,5 +1,10 @@
 package com.zh.courseDesign.web.bean;
 
+import com.zh.courseDesign.web.dao.bean.UserDAO;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * 用户的bean对象，用于实现了user表的ORM。用于表示一个用户对象
  *
@@ -11,6 +16,7 @@ public class User {
 
     public static int ADMIN = 1;
     public static int NORMAL = 2;
+    private String[] UserTYPE = {"","管理员","普通用户"};
 
     private Integer id;
     private String name;
@@ -58,44 +64,37 @@ public class User {
         this.updated_at = updated_at;
     }
 
-    public User(int id, String name, String pwd, Integer type, String updated_at) {
+    public User() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        this.updated_at = simpleDateFormat.format(new Date(System.currentTimeMillis()));
+    }
+
+    public User(Integer id, String name, String pwd, Integer type) {
+        this();
         this.id = id;
         this.name = name;
         this.pwd = pwd;
         this.type = type;
-        this.updated_at = updated_at;
     }
 
-    public User(String name, String pwd, Integer type, String updated_at) {
+    public User(String name, String pwd, Integer type) {
+        this();
         this.name = name;
         this.pwd = pwd;
         this.type = type;
-        this.updated_at = updated_at;
-    }
-
-    public User() {
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", pwd='" + pwd + '\'' +
-                ", type=" + type +
-                ", updated_at='" + updated_at + '\'' +
-                '}';
     }
 
     /**
      * 该方法用来返回对象的json字符串，以便于对象在web端的传输
+     *
      * @return 对象的json字符串
      */
-    public String toJson() {
+    @Override
+    public String toString() {
         return "{" +
                 "\"id\":\"" + id + "\"" +
                 ",\"name\":\"" + name + '\"' +
-                ",\"type\":\"" + type + '\"' +
+                ",\"type\":\"" + UserTYPE[type] + '\"' +
                 ",\"updated_at\":\"" + updated_at + '\"' +
                 '}';
     }
