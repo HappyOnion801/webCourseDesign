@@ -4,7 +4,7 @@
     outline: none;
 }
 
-.fellable:hover{
+.fellable:hover {
     background-color: #cccccc;
 }
 
@@ -49,13 +49,25 @@ body {
 .menu > li {
     height: 40px;
     padding-left: 30px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    line-height: 40px;
-    font-size: 16px;
     color: #5d5d5d;
     border-bottom: 1px solid #dddddd;
     border-right: 1px solid #dddddd;
+}
+
+.menu-bar > img{
+    width: 26px;
+    height: 26px;
+    margin-top: 7px;
+    float: left;
+
+}
+
+.menu-bar > a{
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 5px;
+    float: left;
 }
 
 .menu-bar-title {
@@ -80,6 +92,7 @@ body {
     padding-right: 10px;
     letter-spacing: 2px;
 }
+
 
 .one-say {
     box-sizing: border-box;

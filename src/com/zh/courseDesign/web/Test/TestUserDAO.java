@@ -14,10 +14,9 @@ import java.util.List;
 public class TestUserDAO {
 
     @Test
-    public void userAllCount() {
-        System.out.print("获取所有的用户数量：");
+    public void count() {
         UserDAO userDAO = new UserDAO();
-        System.out.println(userDAO.userAllCount());
+        System.out.println(userDAO.count(1,"1"));
     }
 
     @Test
@@ -49,7 +48,7 @@ public class TestUserDAO {
     public void userList() {
         System.out.println("获取用户列表：");
         UserDAO userDAO = new UserDAO();
-        List<User> res = userDAO.userList(1);
+        List<User> res = userDAO.userList(-1,"1",1);
         for (Object b : res) {
             System.out.println(((User) b));
         }

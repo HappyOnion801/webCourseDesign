@@ -31,41 +31,16 @@ public class UserDAO extends BaseDAO<User> implements IUser {
     }
 
     @Override
-    public List<User> userList(int page) {
-        int limit = getLimit();
-        return super.select("select * from user limit ?,?", (page - 1) * limit, limit);
-    }
-
-    @Override
-    public List<User> userAdminList(int page) {
-        int limit = getLimit();
-        return super.select("select * from user where type=? limit ?,?", User.ADMIN, (page - 1) * limit, limit);
-    }
-
-    @Override
-    public List<User> userNormalList(int page) {
-        int limit = getLimit();
-        return super.select("select * from user where type=? limit ?,?", User.NORMAL, (page - 1) * limit, limit);
+    public List<User> userList(int type, String name, int page) {
+        if (type == -1)
+            return super.select("select * from user where name like ?", "%" + name + "%");
+        else
+            return super.select("select * from user where type=? and name like ?", type, "%" + name + "%");
     }
 
     @Override
     public User userDisplay(int id) {
         List<User> res = super.select("select * from user where id=?", id);
-        if (res != null && res.size() == 1) return res.get(0);
-        return null;
-    }
-
-    /**
-     * 通过用户名和密码来进行用户的搜索，但是因为用户名可能存在重复问题所以该方法存在BUG
-     *
-     * @param name 用户名
-     * @param pwd  密码
-     * @return 返回检索到的用户，如果没有匹配的用户，将返回null;
-     */
-    @Deprecated
-    @Override
-    public User userDisplay(String name, String pwd) {
-        List<User> res = super.select("select * from user where name=?,pwd=?", name, pwd);
         if (res != null && res.size() == 1) return res.get(0);
         return null;
     }
@@ -104,17 +79,11 @@ public class UserDAO extends BaseDAO<User> implements IUser {
     }
 
     @Override
-    public int userAllCount() {
-        return super.getInt("select count(*) from user");
+    public int count(int type, String name) {
+        if (type != -1)
+            return super.getInt("select count(*) from user where type=? and name like ?", type, "%" + name + "%");
+        else
+            return super.getInt("select count(*) from user where name like ?", "%" + name + "%");
     }
 
-    @Override
-    public int userAdminCount() {
-        return super.getInt("select count(*) from user where type=?", User.ADMIN);
-    }
-
-    @Override
-    public int userNormalCount() {
-        return super.getInt("select count(*) from user where type=?", User.NORMAL);
-    }
 }

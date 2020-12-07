@@ -21,10 +21,13 @@
     <tr>
         <td class="left">
             <ul class="menu">
-                <li class="menu-bar fellable" onclick="index()" id="indexBar"><a>首页</a></li>
-                <li class="menu-bar fellable" onclick="user()" id="userBar"><a>用户管理</a></li>
-                <li class="menu-bar fellable" onclick="news()" id="newsBar"><a>新闻管理</a></li>
-                <li class="menu-bar fellable" onclick="exit()" id="exitBar"><a>注销</a></li>
+                <li class="menu-bar fellable" onclick="index()" id="indexBar"><img src="../icon/index.png"/><a>首页</a>
+                </li>
+                <li class="menu-bar fellable" onclick="user()" id="userBar"><img src="../icon/user.png"/><a>用户管理</a>
+                </li>
+                <li class="menu-bar fellable" onclick="news()" id="newsBar"><img src="../icon/news.png"/><a>新闻管理</a>
+                </li>
+                <li class="menu-bar fellable" onclick="exit()" id="exitBar"><img src="../icon/exit.png"/><a>退出</a></li>
             </ul>
             <ul class="one-say">
                 <li class="menu-bar fellable">
@@ -39,64 +42,12 @@
         </td>
         <td class="content">
             <ul class="desktop" id="desktop">
-                <li>
-                    <span class="icon"></span><br/><br/>
+                <li onclick="user()">
+                    <img class="app_icon" src="../icon/user.png"/><br/><br/>
                     <span class="app-name">用户管理</span>
                 </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
-                    <span class="app-name">新闻管理</span>
-                </li>
-                <li>
-                    <span class="icon"></span><br/><br/>
+                <li onclick="news()">
+                    <img class="app_icon" src="../icon/news.png"/><br/><br/>
                     <span class="app-name">新闻管理</span>
                 </li>
             </ul>
@@ -110,7 +61,7 @@
                     <ul class="search">
                         <li><label><input type="text" id="input"/></label></li>
                         <li>
-                            <button id="search">搜索</button>
+                            <button id="search" onclick="search()">搜索</button>
                         </li>
                     </ul>
                     <label>
@@ -289,26 +240,32 @@
         event.stopPropagation();
     }
 
+    let inputNameForSearch = "";
+
     function toPage(page) {
         let size;
+        let name = inputNameForSearch;
         $.ajaxSettings.async = false;
-        $.getJSON("../user", {"operation": "page", "type": $("#filter").val(), "page": page}, function (req) {
-            if (req["code"] === "1") {
-                let list = req["list"];
-                size = list.length;
-                if (size !== 0)
-                    $("#data").find(".obj").remove();
-                for (let i = 0; i < list.length; i++) {
-                    append(list[i]);
+        $.getJSON("../user",
+            {"operation": "page", "type": $("#filter").val(), "page": page, "name": name},
+            function (req) {
+                if (req["code"] === "1") {
+                    let list = req["list"];
+                    size = list.length;
+                    if (size !== 0)
+                        $("#data").find(".obj").remove();
+                    for (let i = 0; i < list.length; i++) {
+                        append(list[i]);
+                    }
                 }
-            }
-        });
+            });
         $.ajaxSettings.async = true;
         if (size !== 0) $("#inputPage").val(page);
     }
 
     function next() {
         let now = Number($("#inputPage").val());
+        if (now === Number($("#allPage").text())) return;
         toPage(now + 1);
     }
 
@@ -322,6 +279,20 @@
         $("#data").find(".obj").remove();
         toPage(1);
         changeMetaData();
+    }
+
+    function changeMetaData() {
+        let type = Number($("#filter").val());
+        let name = $("#input").val().trim();
+        $.getJSON("../user",
+            {"operation": "count", "type": type, "name": name},
+            function (req) {
+                let limit = Number(req["limit"]);
+                let all = Number(req["all"]);
+                console.log(req);
+                $("#allPage").text(Math.ceil(all / limit));
+                $("#allItems").text(all);
+            });
     }
 
     function changePage() {
@@ -338,6 +309,13 @@
         }
     }
 
+    function search() {
+        inputNameForSearch = $("#input").val().trim();
+        changeMetaData();
+        $("#data").find(".obj").remove();
+        toPage(1);
+    }
+
     function hiddenAll() {
         $("#desktop").css("display", "none");
         $("#userPage").css("display", "none");
@@ -351,20 +329,9 @@
         $("#indexBar").css("border-right", "none");
     }
 
-    function changeMetaData() {
-        let type = Number($("#filter").val())
-        $.getJSON("../user?operation=count&type=" + type, function (req) {
-            let limit = Number(req["limit"]);
-            let all = Number(req["all"]);
-            console.log(req);
-            $("#allPage").text(Math.ceil(all / limit));
-            $("#allItems").text(all);
-        });
-    }
-
     function user() {
         hiddenAll();
-        changeMetaData(-1);
+        changeMetaData();
         toPage(1);
         $("#userPage").css("display", "block");
         $("#userBar").css("border-right", "none");

@@ -82,17 +82,13 @@ public class user extends HttpServlet {
         try {
             int type = Integer.parseInt(request.getParameter("type"));
             int page = Integer.parseInt(request.getParameter("page"));
+            String name = request.getParameter("name");
             if (page < 1)
                 return message;
             StringBuilder sb = new StringBuilder("[");
             UserDAO userDAO = new UserDAO();
             List<User> res = null;
-            if (type == -1)
-                res = userDAO.userList(page);
-            else if (type == 1)
-                res = userDAO.userAdminList(page);
-            else if (type == 2)
-                res = userDAO.userNormalList(page);
+            res = userDAO.userList(type,name,page);
             for (int i = 0; i < res.size(); i++) {
                 if (i != 0)
                     sb.append(",");
@@ -110,14 +106,10 @@ public class user extends HttpServlet {
         String message = "{\"code\":\"0\"}";
         try {
             int type = Integer.parseInt(request.getParameter("type"));
+            String name = request.getParameter("name");
             UserDAO userDAO = new UserDAO();
             int res = -1;
-            if (type == -1)
-                res = userDAO.userAllCount();
-            else if (type == 1)
-                res = userDAO.userAdminCount();
-            else if (type == 2)
-                res = userDAO.userNormalCount();
+            res = userDAO.count(type,name);
             message = "{\"code\":\"1\",\"all\":\"" + res + "\",\"limit\":\"" + userDAO.getLimit() + "\"}";
         } catch (Exception e) {
             e.printStackTrace();

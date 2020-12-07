@@ -14,13 +14,10 @@
     margin-left: 3%;
 }
 
-.icon {
+.app_icon {
     display: inline-block;
     height: 70px;
     width: 70px;
-    line-height: 70px;
-    border-radius: 70px;
-    background-color: #eeeeee;
 }
 
 .app-name {

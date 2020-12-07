@@ -10,17 +10,12 @@ import java.util.List;
  * @github HappyOnion801
  */
 public interface IUser {
-    public List<User> userList(int page);
-    public List<User> userAdminList(int page);
-    public List<User> userNormalList(int page);
+    public List<User> userList(int type,String name,int page);
     public User userDisplay(int id);
-    public User userDisplay(String name,String pwd);
     public User userDisplay(String name);
     public boolean UserExists(String name);
     public int userAdd(User user);
     public boolean userDelete(int id);
     public boolean userUpdate(User user);
-    public int userAllCount();
-    public int userAdminCount();
-    public int userNormalCount();
+    public int count(int type,String name);
 }
