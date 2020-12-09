@@ -27,7 +27,7 @@ public class UserDAO extends BaseDAO<User> implements IUser {
     }
 
     public int getLimit() {
-        return Integer.parseInt(properties.getProperty("limit"));
+        return Integer.parseInt(properties.getProperty("UserLimit"));
     }
 
     @Override

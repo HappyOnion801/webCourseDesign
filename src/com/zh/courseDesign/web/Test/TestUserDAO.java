@@ -66,5 +66,10 @@ public class TestUserDAO {
         System.out.println(userDAO.UserExists("123"));
     }
 
+    @Test
+    public void getLimit(){
+        UserDAO userDAO = new UserDAO();
+        System.out.println(userDAO.getLimit());
+    }
 
 }

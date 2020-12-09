@@ -26,15 +26,19 @@ public class NewsDAO extends BaseDAO<News> implements INews {
         }
     }
 
+    public int getLimit(){
+        return Integer.parseInt(properties.getProperty("NewsLimit"));
+    }
+
     @Override
     public List<News> newsAllList(int page) {
-        int limit = Integer.parseInt(properties.getProperty("limit"));
+        int limit = getLimit();
         return super.select("select * from news limit ?,?", (page - 1) * limit, limit);
     }
 
     @Override
     public List<News> newsAllList(String title, int page) {
-        int limit = Integer.parseInt(properties.getProperty("limit"));
+        int limit = getLimit();
         return super.select("select * from news where title=? limit ?,?", title, (page - 1) * limit, limit);
     }
 

@@ -44,6 +44,8 @@ public class user extends HttpServlet {
         String message = "{\"code\":\"0\"}";
         try {
             int id = Integer.parseInt(request.getParameter("id"));
+            if(request.getSession().getAttribute("userID").equals(id))
+                return message;
             if (id <= 0) {
                 return message;
             }

@@ -68,7 +68,7 @@
     <tr>
         <td>
             <div class="form">
-                <form onsubmit="sub();return false" action="admin/admin.html" method="post">
+                <form onsubmit="sub();return false" action="admin.html" method="post">
                     <p class="label">用户名</p>
                     <label for="username"></label><input class="input" id="username" type="text"/>
                     <br/><br/>
@@ -103,7 +103,7 @@
             var tit;
             if (req["code"] === "1") {
                 tit = createAlert("ok", "登录成功！");
-                window.open("admin/admin.html","_self");
+                window.open("admin.html","_self");
             } else if (req["code"] === "0") {
                 tit = createAlert("no", "登录失败！");
             }else{

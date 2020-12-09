@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
-    <link rel="stylesheet" href="../css/admin-main.css"/>
-    <link rel="stylesheet" href="../css/admin-index.css"/>
-    <link rel="stylesheet" href="../css/admin-user.css"/>
-    <link rel="stylesheet" href="../css/modal.css"/>
-    <script src="../js/jquery.min.3.5.1.js"></script>
-    <script src="../js/modal.js"></script>
+    <link rel="stylesheet" href="css/admin-main.css"/>
+    <link rel="stylesheet" href="css/admin-index.css"/>
+    <link rel="stylesheet" href="css/admin-user.css"/>
+    <link rel="stylesheet" href="css/modal.css"/>
+    <script src="js/jquery.min.3.5.1.js"></script>
+    <script src="js/modal.js"></script>
 </head>
 <body>
 <table class="main">
@@ -21,13 +21,13 @@
     <tr>
         <td class="left">
             <ul class="menu">
-                <li class="menu-bar fellable" onclick="index()" id="indexBar"><img src="../icon/index.png"/><a>首页</a>
+                <li class="menu-bar fellable" onclick="index()" id="indexBar"><img src="icon/index.png"/><a>首页</a>
                 </li>
-                <li class="menu-bar fellable" onclick="user()" id="userBar"><img src="../icon/user.png"/><a>用户管理</a>
+                <li class="menu-bar fellable" onclick="user()" id="userBar"><img src="icon/user.png"/><a>用户管理</a>
                 </li>
-                <li class="menu-bar fellable" onclick="news()" id="newsBar"><img src="../icon/news.png"/><a>新闻管理</a>
+                <li class="menu-bar fellable" onclick="news()" id="newsBar"><img src="icon/news.png"/><a>新闻管理</a>
                 </li>
-                <li class="menu-bar fellable" onclick="exit()" id="exitBar"><img src="../icon/exit.png"/><a>退出</a></li>
+                <li class="menu-bar fellable" onclick="exit()" id="exitBar"><img src="icon/exit.png"/><a>退出</a></li>
             </ul>
             <ul class="one-say">
                 <li class="menu-bar fellable">
@@ -43,11 +43,11 @@
         <td class="content">
             <ul class="desktop" id="desktop">
                 <li onclick="user()">
-                    <img class="app_icon" src="../icon/user.png"/><br/><br/>
+                    <img class="app_icon" src="icon/user.png"/><br/><br/>
                     <span class="app-name">用户管理</span>
                 </li>
                 <li onclick="news()">
-                    <img class="app_icon" src="../icon/news.png"/><br/><br/>
+                    <img class="app_icon" src="icon/news.png"/><br/><br/>
                     <span class="app-name">新闻管理</span>
                 </li>
             </ul>
@@ -132,7 +132,7 @@
                 let data;
                 $.ajaxSettings.async = false;
                 $.getJSON(
-                    "../user",
+                    "user",
                     {"operation": "add", "name": input["用户名"], "password": input["密码"]},
                     function (req) {
                         data = req;
@@ -158,7 +158,7 @@
         let data;
         $.ajaxSettings.async = false;
         $.getJSON(
-            "../user",
+            "user",
             {"operation": "delete", "id": id},
             function (req) {
                 data = req;
@@ -221,7 +221,7 @@
             } else if (input["密码"] !== input["确认密码"]) {
                 createAlert("no", "两次密码不一样").show();
             } else if (input["密码"] === input["确认密码"]) {
-                $.getJSON("../user", {
+                $.getJSON("user", {
                     "operation": "update",
                     "password": input["密码"],
                     "id": data
@@ -246,7 +246,7 @@
         let size;
         let name = inputNameForSearch;
         $.ajaxSettings.async = false;
-        $.getJSON("../user",
+        $.getJSON("user",
             {"operation": "page", "type": $("#filter").val(), "page": page, "name": name},
             function (req) {
                 if (req["code"] === "1") {
@@ -284,7 +284,7 @@
     function changeMetaData() {
         let type = Number($("#filter").val());
         let name = $("#input").val().trim();
-        $.getJSON("../user",
+        $.getJSON("user",
             {"operation": "count", "type": type, "name": name},
             function (req) {
                 let limit = Number(req["limit"]);
@@ -335,6 +335,13 @@
         toPage(1);
         $("#userPage").css("display", "block");
         $("#userBar").css("border-right", "none");
+    }
+
+    function exit() {
+        $.getJSON("logout", {}, function (req) {
+            if (req["code"] === "1")
+                window.open("login.jsp", "_self");
+        });
     }
 
     $(function () {

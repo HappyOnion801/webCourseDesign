@@ -74,4 +74,9 @@ public class TestNewsDAO {
         System.out.println("获取新闻总条目数：");
         System.out.println(newsDAO.newsAllCount());
     }
+
+    @Test
+    public void getLimit(){
+        System.out.println((new NewsDAO()).getLimit());
+    }
 }
