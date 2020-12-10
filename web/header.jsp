@@ -5,7 +5,7 @@
     <div class="wrap">
         <div class="header">
             <div class="logo">
-                <a href="index.html"><img src="assets/img/logo.png" alt=""> </a>
+                <a href="index.jsp"><img src="assets/img/logo.png" alt=""> </a>
             </div>
             <div class="pull-icon">
                 <a id="pull"></a>

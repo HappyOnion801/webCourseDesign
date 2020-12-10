@@ -32,10 +32,11 @@ public class UserDAO extends BaseDAO<User> implements IUser {
 
     @Override
     public List<User> userList(int type, String name, int page) {
+        int limit = getLimit();
         if (type == -1)
-            return super.select("select * from user where name like ?", "%" + name + "%");
+            return super.select("select * from user where name like ? limit ?,?", "%" + name + "%", (page - 1) * limit, limit);
         else
-            return super.select("select * from user where type=? and name like ?", type, "%" + name + "%");
+            return super.select("select * from user where type=? and name like ? limit ?,?", type, "%" + name + "%", (page - 1) * limit, limit);
     }
 
     @Override

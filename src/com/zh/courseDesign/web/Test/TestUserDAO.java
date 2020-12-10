@@ -48,7 +48,7 @@ public class TestUserDAO {
     public void userList() {
         System.out.println("获取用户列表：");
         UserDAO userDAO = new UserDAO();
-        List<User> res = userDAO.userList(-1,"1",1);
+        List<User> res = userDAO.userList(-1,"%",1);
         for (Object b : res) {
             System.out.println(((User) b));
         }

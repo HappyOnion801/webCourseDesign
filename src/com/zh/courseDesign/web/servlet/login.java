@@ -26,7 +26,7 @@ public class login extends javax.servlet.http.HttpServlet {
             String remind = request.getParameter("remind");
             UserDAO userDAO = new UserDAO();
             User user = userDAO.userDisplay(username);
-            if (user != null && password.equals(user.getPwd())) {
+            if (user != null && password.equals(user.getPwd()) && user.getType()==1) {
                 if ("remind".equals(remind)) {
                     Cookie cookie = new Cookie("userID", String.valueOf(user.getId()));
                     cookie.setMaxAge(604800);

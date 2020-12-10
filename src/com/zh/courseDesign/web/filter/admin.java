@@ -19,7 +19,6 @@ public class admin implements Filter {
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
-        System.out.println(request.getSession().getAttribute("userID"));
         if (request.getSession().getAttribute("userID") != null)
             chain.doFilter(req, resp);
         else

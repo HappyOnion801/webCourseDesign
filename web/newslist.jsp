@@ -13,10 +13,8 @@
     <link href="assets/css/container.css" rel="stylesheet" type="text/css">
     <link href="assets/css/reset.css" rel="stylesheet" type="text/css">
     <link href="assets/css/screen.css" rel="stylesheet" type="text/css">
-    <script src="assets/js/jquery.min.js">
-    </script>
-    <script src="assets/js/tab.js">
-    </script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/tab.js"></script>
 </head>
 
 <body>

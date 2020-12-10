@@ -119,6 +119,7 @@
 
     function add() {
         let modal = createPrompt({"用户名": "text", "密码": "password", "确认密码": "password"});
+        let flag = false;
         modal.okEvent = function (input) {
             if (input["用户名"] === "") {
                 createAlert("no", "请输入用户名").show();
@@ -140,6 +141,7 @@
                 $.ajaxSettings.async = true;
                 if (data["code"] === "1") {
                     createAlert("ok", "添加用户成功！").show();
+                    changeMetaData();
                     toPage(Number($("#inputPage").val()));
                     return true;
                 } else if (data["code"] === "0") {
@@ -174,8 +176,10 @@
         let ask = createConfirm("你确定要删除该的用户吗？", "确定", "取消");
         ask.okEvent = function () {
             if (deleteById($(who).parent().find("input").val())) {
-                createAlert("ok", "删除成功！").show();
                 $(who).parent().parent().remove();
+                createAlert("ok", "删除成功！").show();
+                changeMetaData();
+                toPage($("#inputPage").val());
             } else {
                 createAlert("no", "删除失败！");
             }
@@ -204,6 +208,8 @@
             } else {
                 createAlert("ok", "删除用户成功！").show();
             }
+            changeMetaData();
+            toPage(Number($("#inputPage").val()));
         }
         ask.show();
     }
@@ -243,11 +249,13 @@
     let inputNameForSearch = "";
 
     function toPage(page) {
+        let allPage = Number($("#allPage").text());
+        if (page > allPage) page = allPage;
+        if (page < 1) page = 1;
         let size;
-        let name = inputNameForSearch;
         $.ajaxSettings.async = false;
         $.getJSON("user",
-            {"operation": "page", "type": $("#filter").val(), "page": page, "name": name},
+            {"operation": "page", "type": $("#filter").val(), "page": page, "name": inputNameForSearch},
             function (req) {
                 if (req["code"] === "1") {
                     let list = req["list"];
@@ -276,9 +284,9 @@
     }
 
     function change() {
+        changeMetaData();
         $("#data").find(".obj").remove();
         toPage(1);
-        changeMetaData();
     }
 
     function changeMetaData() {
@@ -331,10 +339,10 @@
 
     function user() {
         hiddenAll();
-        changeMetaData();
-        toPage(1);
         $("#userPage").css("display", "block");
         $("#userBar").css("border-right", "none");
+        changeMetaData();
+        toPage(1);
     }
 
     function exit() {
